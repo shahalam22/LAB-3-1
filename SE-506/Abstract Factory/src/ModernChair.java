@@ -1,4 +1,9 @@
-package PACKAGE_NAME;
+public class ModernChair implements Chair{
+//    private Number id = null;
 
-public class ModernChair {
+
+    @Override
+    public void display() {
+        System.out.println("Modern Chair");
+    }
 }

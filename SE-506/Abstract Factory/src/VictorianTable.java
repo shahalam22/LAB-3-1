@@ -1,4 +1,6 @@
-package PACKAGE_NAME;
-
-public class VictorianTable {
+public class VictorianTable implements Table{
+    @Override
+    public void display() {
+        System.out.println("Victorian Table");
+    }
 }

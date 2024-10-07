@@ -1,4 +1,6 @@
-package PACKAGE_NAME;
-
-public class ModernTable {
+public class ModernTable implements Table{
+    @Override
+    public void display() {
+        System.out.println("Modern Table");
+    }
 }

@@ -1,4 +1,6 @@
-package PACKAGE_NAME;
-
-public class RusticTable {
+public class RusticTable implements Table{
+    @Override
+    public void display() {
+        System.out.println("Rustic Table");
+    }
 }
