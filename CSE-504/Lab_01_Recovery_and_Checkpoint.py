@@ -1,4 +1,5 @@
-file = open("Lab_01.txt", 'r')
+# file = open("Lab_01.txt", 'r')
+file = open("log.txt", 'r')
 
 def isUnique(transactions, value):
     for i in range(len(transactions)):
@@ -19,9 +20,13 @@ changed_transactions = []
 ckpt_flag = False
 
 for line in file:
+    line = line[1:-2]
+    # print(line,'\n')
     values = line.strip().split()
     commands.append(values)
 file.close()
+
+# print("Commands: \n", commands)
 
 for command in reversed(commands):
     if command[0] == "START":
@@ -70,10 +75,18 @@ print("\nUNDO Transactions: ")
 for i in range(len(undo_transactions)):
     print(undo_transactions[i][0])
 
+
+# print(transactions)
+# print(undo_transactions)
+# print(redo_transactions)
+
+
 undo_redo_values = []
+final_values = []
 
 for i in range(len(data_points)):
     undo_redo_values.append([data_points[i], "-", "-"])
+    final_values.append([data_points[i], "-"])
 
 for i in range(len(undo_transactions)):
     for j in range(len(undo_redo_values)):
