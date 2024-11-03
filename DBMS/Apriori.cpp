@@ -21,7 +21,6 @@ void loadTransactions(){
     int n;
     file >> n;
     
-    
     string line;
     getline(file, line);
     
