@@ -1,0 +1,41 @@
+flowchart TD
+    %% Event Creation Flow
+    A((Start)) --> B[Create New Event]
+    B --> C[Set Event Details]
+    C --> D[Upload Image]
+    D --> E{Validate Setup}
+    E -- Invalid --> F[Show Error]
+    F --> B
+    E -- Valid --> G[Publish Event]
+    G --> H((End))
+
+    %% Participant Management Flow
+    I((Start)) --> J[Review Registrations]
+    J --> K{Approve?}
+    K -- Yes --> L[Add to Event and Update Details]
+    K -- No --> M[Send Rejection]
+    L --> O[Monitor Activity]
+    O --> P((End))
+    M --> P
+
+%% Event Participation Flow with Simplified Bidding
+    Q((Start)) --> R[Join Event]
+    R --> S[Enter Virtual Room]
+    S --> T{Choose Activity}
+    T -- Chat --> U[Join Live Chat]
+    T -- Trade --> V[View Items]
+
+    %% Simplified Bidding Flow
+    V --> CheckStatus{Active Auction?}
+    CheckStatus -- No --> V
+    CheckStatus -- Yes --> ValidateBid{Valid Bid?}
+    ValidateBid -- No --> ShowError[Show Error]
+    ShowError --> V
+    ValidateBid -- Yes --> ProcessBid[Process Bid]
+    ProcessBid --> NotifyUsers[Update & Notify]
+    NotifyUsers --> V
+
+    U --> Z[Negotiate Terms]
+    NotifyUsers --> Y[Complete Transaction]
+    Y --> AA((End))
+    Z --> AA

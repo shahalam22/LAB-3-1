@@ -1,0 +1,52 @@
+flowchart TD
+    %% Post Creation Flow
+    A((Start)) --> B[Select Create Post]
+    B --> C[Enter Item Details]
+    C --> D[Upload Images]
+    D --> E[Set Exchange/Price Terms]
+    E --> F{Validate Post}
+    F -- Invalid --> G[Show Error]
+    G --> C
+    F -- Valid --> H[Publish Listing]
+    H --> I((End))
+
+    %% Edit/Delete Post Flow
+    J((Start)) --> K[Select Existing Post]
+    K --> L{Choose Action}
+    L -- Edit --> M[Update Details]
+    M --> N{Validate Changes}
+    N -- Invalid --> O[Show Error]
+    O --> M
+    N -- Valid --> P[Save Changes]
+    L -- Delete --> Q[Confirm Delete]
+    Q --> R[Remove Post]
+    P --> S((End))
+    R --> S
+
+    %% View Post Flow
+    T((Start)) --> U[Browse Listings]
+    U --> V[Select Item]
+    V --> W[View Details]
+    W --> X((End))
+
+    %% Resource Seeker Buy/Exchange Flow
+    AA((Start)) --> BB[Select Item]
+    BB --> DD[View Details]
+    DD --> EE{Choose Action}
+    EE -- Buy --> FF[Review Price]
+    EE -- Exchange --> GG[Propose Exchange Item]
+    FF --> HH{Accept Price?}
+    GG --> II{Provider Accepts?}
+    HH -- No --> BB
+    HH -- Yes --> JJ[Add to Cart]
+    II -- No --> KK[Receive Counter Offer]
+    II -- Yes --> LL[Schedule Exchange]
+    KK --> MM{Accept Counter?}
+    MM -- Yes --> LL
+    MM -- No --> BB
+    JJ --> NN[Complete Payment]
+    NN --> OO[Confirm Transaction]
+    LL --> OO
+    OO --> PP[Arrange Collection/Delivery]
+    PP --> QQ[Complete Exchange]
+    QQ --> RR((End))

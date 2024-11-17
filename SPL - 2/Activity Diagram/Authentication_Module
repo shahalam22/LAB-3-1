@@ -1,0 +1,34 @@
+flowchart TD
+%%{ init: { 'flowchart': { 'curve': 'stepAfter' } } }%%
+
+    %% User Registration Flow
+    A((Start)) --> X{Have Account?}
+    X -- Invalid --> B[Navigate to Registration]
+    B --> C[Fill Registration Form]
+    C --> D{Validate Info}
+    D -- Invalid --> E[Show Error Message]
+    E --> C
+    D -- Valid --> F[Create Account]
+    F --> G[Redirect to Dashboard]
+    G --> H((End))
+
+    %% User Login Flow
+    %% A((Start)) --> X
+    X -- Valid --> J[Enter Login Credentials]
+    J --> K{Validate Credentials}
+    K -- Invalid --> L[Show Error Message]
+    L --> N{Forget PassWord}
+    N -- Valid --> J
+    N -- Invalid --> Q
+    K -- Valid --> M[Grant Access]
+    M --> G
+
+    %% Password Recovery Flow
+    P((Start)) --> Q[Select Forgot Password]
+    Q --> R[Enter Email]
+    R --> S{Validate Email}
+    S -- Invalid --> T[Show Error]
+    T --> R
+    S -- Valid --> U[Send Reset Link]
+    U --> V[Create New Password]
+    V --> W((End))

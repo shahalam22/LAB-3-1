@@ -1,0 +1,35 @@
+flowchart TD
+    %% Request Creation Flow
+    A((Start)) --> B[Create New Request]
+    B --> C[Specify Requirements]
+    C --> D[Set Preferences]
+    D --> E{Validate Request}
+    E -- Invalid --> F[Show Error]
+    F --> C
+    E -- Valid --> G[Publish Request]
+    G --> H((End))
+
+    %% Resource Provision Flow
+    I((Start)) --> J[View Request Lists]
+    J --> K{Match Available?}
+    K -- No --> L((End))
+    K -- Yes --> M[Offer Resource]
+    M --> N[Discuss Terms]
+    N --> O[Confirm Provision]
+    O --> P((End))
+
+    %% Edit Request Flow
+    Q((Start)) --> R[View Own Requests]
+    R --> S{Select Action}
+    S -- Edit --> T[Modify Request Details]
+    T --> U{Validate Changes}
+    U -- Invalid --> V[Show Error]
+    V --> T
+    U -- Valid --> W[Update Request]
+    W --> X((End))
+
+    %% Delete Request Flow
+    S -- Delete --> Y{Confirm Deletion}
+    Y -- No --> R
+    Y -- Yes --> Z[Remove Request]
+    Z --> AA((End))
