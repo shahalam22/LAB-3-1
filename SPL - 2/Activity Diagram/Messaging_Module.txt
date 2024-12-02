@@ -1,0 +1,18 @@
+flowchart TD
+    A((Start)) --> B[Initiate Chat]
+    B --> C[Select Recipient]
+    C --> D[Compose Message]
+    D --> E{Message Validation}
+    E -- Invalid --> F[Show Error]
+    F --> D
+    E -- Valid --> G[Send Message]
+    G --> H[Recipient Receives Message]
+    H --> I{Response Type}
+    I -- "Immediate Response" --> J[Continue Conversation]
+    I -- "Delayed Response" --> K[Notification Sent]
+    J --> L{Conversation Status}
+    K --> L
+    L -- "Ongoing" --> M[Continue Messaging]
+    L -- "Agreement Reached" --> N[Mark Conversation Complete]
+    M --> D
+    N --> O((End))

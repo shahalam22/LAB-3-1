@@ -1,0 +1,58 @@
+flowchart TD
+    A((Start)) --> B[User Logs In]
+    B --> C[User Dashboard]
+    
+    C --> D[Resource Posts]
+    D --> E{Action Selected}
+    E -- "View Status" --> F[Display Post Details]
+    E -- "Create New Post" --> G[Add New Resource Post]
+    E -- "Update Details" --> H[Edit Post]
+    E -- "Delete Post" --> I[Confirm Deletion]
+    
+    C --> J[Request Posts]
+    J --> K{Action Selected}
+    K -- "View Status" --> L[Display Request Details]
+    K -- "Create New Request" --> M[Add New Resource Request]
+    K -- "Update Requirements" --> N[Edit Request]
+    K -- "Delete Request" --> O[Confirm Deletion]
+    
+    C --> P[Event Management]
+    P --> Q{Action Selected}
+    Q -- "View Events" --> R[Display Event List]
+    Q -- "Create New Event" --> S[Add New Event]
+    Q -- "Update Details" --> T[Edit Event]
+    Q -- "Manage Participants" --> U[Participant Management]
+    
+    F --> V[Return to Resource Posts]
+    G --> V
+    H --> V
+    I --> V
+    
+    L --> W[Return to Request Posts]
+    M --> W
+    N --> W
+    O --> W
+    
+    R --> X[Return to Event Management]
+    S --> X
+    T --> X
+    U --> X
+    
+    C --> Y[Analytical Dashboard]
+    Y --> Z[Analytics of Surplus post, Request Posts, Events, Total Saving, Total Earnings]
+    %% Z -- "Performance Reports" --> AA[Generate Performance Reports]
+    %% Z -- "Activity Tracking" --> AB[View User Activities]
+    %% Z -- "Resource Utilization" --> AC[Resource Usage Analytics]
+    %% Z -- "Event Insights" --> AD[Event Performance Metrics]
+    %% Z --> AE[Return to Analytical Dashboard]
+
+    %% AA --> AE[Return to Analytical Dashboard]
+    %% AB --> AE
+    %% AC --> AE
+    %% AD --> AE
+
+    
+    V --> AF((End))
+    W --> AF
+    X --> AF
+    Z --> AF

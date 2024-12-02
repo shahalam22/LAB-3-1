@@ -1,0 +1,15 @@
+flowchart TD
+    A((Start)) --> B[Select Payment Method]
+    B --> C[Enter Payment Details]
+    C --> D{Validate Payment Information}
+    D -- Invalid --> E[Display Error Message]
+    E --> B
+    D -- Valid --> F[Confirm Payment]
+    F --> G[Process Transaction]
+    G --> H{Transaction Successful?}
+    H -- No --> I[Display Transaction Failure]
+    I --> B
+    H -- Yes --> J[Generate Payment Confirmation]
+    J --> K[Notify Resource Provider]
+    K --> L[Update Transaction Status]
+    L --> M((End))

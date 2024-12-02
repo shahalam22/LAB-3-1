@@ -1,4 +1,3 @@
-package PACKAGE_NAME;
-
 public interface LibraryAccess {
+    void accessItem(String itemId, User user);
 }

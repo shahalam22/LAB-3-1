@@ -1,4 +1,5 @@
-package PACKAGE_NAME;
-
 public interface LibraryItem {
+    String getId();
+    String getDetails();
+    void borrowItem();
 }

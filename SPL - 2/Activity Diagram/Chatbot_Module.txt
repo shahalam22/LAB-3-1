@@ -1,0 +1,25 @@
+flowchart TD
+    A((Start)) --> B[User Activates Chatbot]
+    B --> C[User Inputs Query]
+    C --> D{Query Complexity}
+    D -- "Simple Query" --> E[Chatbot Processes Query]
+    D -- "Complex Query" --> F[Escalate to Human Support]
+    
+    E --> G{Response Availability}
+    G -- "Direct Answer" --> H[Provide Immediate Response]
+    G -- "Requires Guidance" --> I[Offer Step-by-Step Assistance]
+    
+    F --> J[Human Support Representative Assigned]
+    J --> K[Review User Query]
+    K --> L[Develop Comprehensive Response]
+    L --> M[Send Detailed Answer]
+    
+    H --> N{User Satisfaction}
+    I --> N
+    M --> N
+    
+    N -- "Satisfied" --> O[End Interaction]
+    N -- "Not Satisfied" --> P[Offer Additional Resources]
+    P --> Q[Provide Support Contacts]
+    Q --> O
+    O --> R((End))
