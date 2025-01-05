@@ -1,6 +1,9 @@
 import numpy as np
 import pandas as pd
 from collections import Counter
+from sklearn.model_selection import KFold
+from sklearn.metrics import precision_score, recall_score, f1_score
+
 
 # Calculate entropy
 def calculate_entropy(y):
@@ -70,6 +73,15 @@ def build_tree(X, y, depth=0, max_depth=10):
     right_subtree = build_tree([X[i] for i in right_indices], [y[i] for i in right_indices], depth + 1, max_depth)
     return Node(feature_index=feature_index, threshold=threshold, left=left_subtree, right=right_subtree)
 
+# Print the decision tree
+def print_tree(node, depth=0):
+    if node.value is not None:
+        print(f"{'|   ' * depth}Leaf: Class = {node.value}")
+    else:
+        print(f"{'|   ' * depth}Feature {node.feature_index} <= {node.threshold}")
+        print_tree(node.left, depth + 1)
+        print_tree(node.right, depth + 1)
+
 # Predict a single instance
 def predict_instance(node, instance):
     if node.value is not None:
@@ -109,17 +121,71 @@ def load_and_preprocess_data(filename):
 
     return X_train, X_test, y_train, y_test
 
+def calculate_f1_f2(y_true, y_pred):
+    precision = precision_score(y_true, y_pred, average='weighted')
+    recall = recall_score(y_true, y_pred, average='weighted')
+    f1 = f1_score(y_true, y_pred, average='weighted')
+    
+    # Calculate F2 score
+    f2 = (1 + 2**2) * (precision * recall) / ((2**2 * precision) + recall) if (precision + recall) > 0 else 0.0
+    
+    return f1, f2
+
+def k_fold_validation(X, y, k=5, max_depth=3):
+    kf = KFold(n_splits=k, shuffle=True, random_state=42)
+    accuracies, f1_scores, f2_scores = [], [], []
+
+    for train_index, val_index in kf.split(X):
+        # Split data into training and validation sets
+        X_train, X_val = [X[i] for i in train_index], [X[i] for i in val_index]
+        y_train, y_val = [y[i] for i in train_index], [y[i] for i in val_index]
+
+        # Build the decision tree on the training set
+        tree = build_tree(X_train, y_train, max_depth=max_depth)
+
+        # Make predictions on the validation set
+        predictions = predict(tree, X_val)
+
+        # Calculate accuracy
+        accuracy = sum(1 for true, pred in zip(y_val, predictions) if true == pred) / len(y_val)
+        accuracies.append(accuracy)
+
+        # Calculate F1 and F2 scores
+        f1, f2 = calculate_f1_f2(y_val, predictions)
+        f1_scores.append(f1)
+        f2_scores.append(f2)
+
+    # Return average accuracy, F1, and F2 scores across all folds
+    return np.mean(accuracies), np.mean(f1_scores), np.mean(f2_scores)
+
+
 # Main function to run the decision tree
 if __name__ == "__main__":
+    # # For single tree without k-fold validation
     # Load and preprocess the dataset (Iris or Heart Disease)
-    X_train, X_test, y_train, y_test = load_and_preprocess_data("heart.csv")  # Change to "heart.csv" for Heart Disease dataset
+    X_train, X_test, y_train, y_test = load_and_preprocess_data("iris.csv")  # Change to "heart.csv" for Heart Disease dataset
 
-    # Build the decision tree
-    tree = build_tree(X_train.tolist(), y_train.tolist(), max_depth=3)
+    # # Build the decision tree
+    # tree = build_tree(X_train.tolist(), y_train.tolist(), max_depth=3)
 
-    # Make predictions on the test set
-    predictions = predict(tree, X_test.tolist())
+    # # Print the decision tree
+    # print("Decision Tree Structure:")
+    # print_tree(tree)
 
-    # Calculate accuracy
-    accuracy = sum(1 for true, pred in zip(y_test, predictions) if true == pred) / len(y_test)
-    print(f"Accuracy: {accuracy * 100:.2f}%")
+    # # Make predictions on the test set
+    # predictions = predict(tree, X_test.tolist())
+
+    # # Calculate accuracy
+    # accuracy = sum(1 for true, pred in zip(y_test, predictions) if true == pred) / len(y_test)
+    # print(f"\nAccuracy: {accuracy * 100:.2f}%")
+
+
+    # # For k-fold validation
+    X_train, _, y_train, _ = load_and_preprocess_data("iris.csv")  # Use the full dataset for K-fold
+
+    # Perform K-Fold validation
+    k = 5  # Number of folds
+    avg_accuracy, avg_f1, avg_f2 = k_fold_validation(X_train.tolist(), y_train.tolist(), k=k, max_depth=3)
+    print(f"\nAverage Accuracy with {k}-Fold Cross-Validation: {avg_accuracy * 100:.2f}%")
+    print(f"Average F1 Score with {k}-Fold Cross-Validation: {avg_f1:.4f}")
+    print(f"Average F2 Score with {k}-Fold Cross-Validation: {avg_f2:.4f}")
